@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import java.util.Random;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class DiceActivity extends AppCompatActivity {
     private Button rollBtn;
@@ -15,6 +16,8 @@ public class DiceActivity extends AppCompatActivity {
     private int currentTurnScore = 0;
     private int playerScore;
     private int compScore;
+    private TextView userScoreDisplay;
+    private TextView compScoreDisplay;
 
     Random random = new Random();
 
@@ -28,7 +31,7 @@ public class DiceActivity extends AppCompatActivity {
         rollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int score = rollDice();
+                int score = rollDice(6);
                 if (score == 1) {
                     endPlayerTurn(1, 0); //if a 1 is rolled - end turn with 0 added points
                 }
@@ -55,6 +58,10 @@ public class DiceActivity extends AppCompatActivity {
                 compScore = 0;
             }
         });
+
+        //grabbing TextView from view
+        userScoreDisplay = (TextView) findViewById(R.id.userScore);
+        compScoreDisplay = (TextView) findViewById(R.id.compScore);
     }
 
     /**
@@ -112,6 +119,22 @@ public class DiceActivity extends AppCompatActivity {
             case 5:  image.setImageDrawable(getDrawable(R.drawable.dice5));
                 break;
             case 6:  image.setImageDrawable(getDrawable(R.drawable.dice6));
+                break;
+        }
+    }
+
+    /**
+     * Method to update player's score
+     * @param player
+     * @param score
+     */
+    protected void updateScore (int player, int score) {
+        switch (player) {
+            case 1: //human player
+                userScoreDisplay.setText("Your Score: " + playerScore);
+                break;
+            case 2: //computer player
+                compScoreDisplay.setText("My Score: " + compScore);
                 break;
         }
     }
