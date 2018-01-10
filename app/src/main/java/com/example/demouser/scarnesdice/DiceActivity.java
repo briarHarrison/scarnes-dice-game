@@ -62,6 +62,8 @@ public class DiceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 playerScore = 0;
                 compScore = 0;
+                updateScore(1, playerScore);
+                updateScore(2, compScore);
             }
         });
 
