@@ -73,9 +73,11 @@ public class DiceActivity extends AppCompatActivity {
         switch (player) {
             case 1:
                 playerScore += currentTurnScore;
+                updateScore(1, playerScore);
                 break;
             case 2:
                 compScore += currentTurnScore;
+                updateScore(2, compScore);
                 break;
         }
         //reset current turn score
