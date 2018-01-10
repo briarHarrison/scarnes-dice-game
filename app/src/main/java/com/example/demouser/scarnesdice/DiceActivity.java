@@ -12,6 +12,7 @@ import java.util.TimerTask;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class DiceActivity extends AppCompatActivity {
     private Button rollBtn;
@@ -20,6 +21,8 @@ public class DiceActivity extends AppCompatActivity {
     private int currentTurnScore = 0;
     private int playerScore;
     private int compScore;
+    private TextView userScoreDisplay;
+    private TextView compScoreDisplay;
 
     Random random = new Random();
 
@@ -61,6 +64,10 @@ public class DiceActivity extends AppCompatActivity {
                 compScore = 0;
             }
         });
+
+        //grabbing TextView from view
+        userScoreDisplay = (TextView) findViewById(R.id.userScore);
+        compScoreDisplay = (TextView) findViewById(R.id.compScore);
     }
 
     /**
@@ -72,9 +79,11 @@ public class DiceActivity extends AppCompatActivity {
         switch (player) {
             case 1:
                 playerScore += currentTurnScore;
+                updateScore(1, playerScore);
                 break;
             case 2:
                 compScore += currentTurnScore;
+                updateScore(2, compScore);
                 break;
         }
         //reset current turn score
@@ -123,10 +132,7 @@ public class DiceActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Play the computer's turn
-     */
-    public void computerTurn(){
+    public void computerTurn() {
         Log.i("Computer", "It's the computer's turn!");
         //disable roll and pass buttons
         holdBtn = (Button) findViewById(R.id.holdButton);
@@ -135,7 +141,7 @@ public class DiceActivity extends AppCompatActivity {
         rollBtn.setEnabled(false);
 
         //while the dice are not 1
-        while (rollDice(6) != 1){
+        while (rollDice(6) != 1) {
             //decide if the computer should hold or keep rolling
         }
 
@@ -145,6 +151,21 @@ public class DiceActivity extends AppCompatActivity {
         //re-enable roll & pass buttons
         holdBtn.setEnabled(true);
         rollBtn.setEnabled(true);
+    }
 
+    /**
+     * Method to update player's score
+     * @param player
+     * @param score
+     */
+    protected void updateScore (int player, int score) {
+        switch (player) {
+            case 1: //human player
+                userScoreDisplay.setText("Your Score: " + playerScore);
+                break;
+            case 2: //computer player
+                compScoreDisplay.setText("My Score: " + compScore);
+                break;
+        }
     }
 }
