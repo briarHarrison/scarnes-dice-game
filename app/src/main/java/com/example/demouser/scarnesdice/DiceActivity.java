@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.view.View;
 import android.widget.Button;
 
@@ -133,13 +136,7 @@ public class DiceActivity extends AppCompatActivity {
 
         //while the dice are not 1
         while (rollDice(6) != 1){
-            //this block pauses the app for one second while the computer "thinks."
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //decide if the computer should hold or keep rolling
-                }
-            }, 1000); // Millisecond 1000 = 1 sec
+            //decide if the computer should hold or keep rolling
         }
 
         //currentTurnScore is a global variable and probably doesn't need to be a parameter as well?
