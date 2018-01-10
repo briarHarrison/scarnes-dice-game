@@ -1,8 +1,10 @@
 package com.example.demouser.scarnesdice;
 
 import android.graphics.drawable.Icon;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import java.util.Random;
 import android.view.View;
@@ -44,6 +46,7 @@ public class DiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 endPlayerTurn(1, currentTurnScore);
+                computerTurn();
             }
         });
 
@@ -93,6 +96,7 @@ public class DiceActivity extends AppCompatActivity {
     private int rollDice(int numSides) {
         int roll = random.nextInt(numSides) + 1; //random.nextInt generates [0-bound), so this will be [1-bound]
         displayDiceImage(roll);
+        Log.i("Rolling", "The dice rolled a " + roll);
         return roll;
     }
 
@@ -114,5 +118,36 @@ public class DiceActivity extends AppCompatActivity {
             case 6:  image.setImageDrawable(getDrawable(R.drawable.dice6));
                 break;
         }
+    }
+
+    /**
+     * Play the computer's turn
+     */
+    public void computerTurn(){
+        Log.i("Computer", "It's the computer's turn!");
+        //disable roll and pass buttons
+        holdBtn = (Button) findViewById(R.id.holdButton);
+        rollBtn = (Button) findViewById(R.id.rollButton);
+        holdBtn.setEnabled(false);
+        rollBtn.setEnabled(false);
+
+        //while the dice are not 1
+        while (rollDice(6) != 1){
+            //this block pauses the app for one second while the computer "thinks."
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //decide if the computer should hold or keep rolling
+                }
+            }, 1000); // Millisecond 1000 = 1 sec
+        }
+
+        //currentTurnScore is a global variable and probably doesn't need to be a parameter as well?
+        endPlayerTurn(2, currentTurnScore);
+
+        //re-enable roll & pass buttons
+        holdBtn.setEnabled(true);
+        rollBtn.setEnabled(true);
+
     }
 }
