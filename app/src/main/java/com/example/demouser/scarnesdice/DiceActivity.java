@@ -28,7 +28,7 @@ public class DiceActivity extends AppCompatActivity {
         rollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int score = rollDice();
+                int score = rollDice(6);
                 if (score == 1) {
                     endPlayerTurn(1, 0); //if a 1 is rolled - end turn with 0 added points
                 }
