@@ -4,16 +4,85 @@ import android.graphics.drawable.Icon;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
-
 import java.util.Random;
+import android.view.View;
+import android.widget.Button;
 
 public class DiceActivity extends AppCompatActivity {
+    private Button rollBtn;
+    private Button holdBtn;
+    private Button resetBtn;
+    private int currentTurnScore = 0;
+    private int playerScore;
+    private int compScore;
+
     Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dice);
+
+        rollBtn = (Button) findViewById(R.id.rollButton);
+        //onClick listener for rollBtn
+        rollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int score = rollDice();
+                if (score == 1) {
+                    endPlayerTurn(1, 0); //if a 1 is rolled - end turn with 0 added points
+                }
+                else {
+                    currentTurnScore += score; //increment current score
+                }
+            }
+        });
+
+        holdBtn = (Button) findViewById(R.id.holdButton);
+        //onClickListener for holdBtn
+        holdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                endPlayerTurn(1, currentTurnScore);
+            }
+        });
+
+        resetBtn = (Button) findViewById(R.id.resetButton);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playerScore = 0;
+                compScore = 0;
+            }
+        });
+    }
+
+    /**
+     * Method to add up the player's current score and reset the score
+     * @param player Human player is 1, computer is 2
+     * @param score
+     */
+    protected void endPlayerTurn(int player, int score) {
+        switch (player) {
+            case 1:
+                playerScore += currentTurnScore;
+                break;
+            case 2:
+                compScore += currentTurnScore;
+                break;
+        }
+        //reset current turn score
+        currentTurnScore = 0;
+    }
+
+    /**
+     * Method to check if the game is over
+     */
+    protected boolean checkGameStatus () {
+        if (playerScore >= 100 || compScore >= 100) {
+            return true;
+        }
+        return false;
     }
 
     /**
