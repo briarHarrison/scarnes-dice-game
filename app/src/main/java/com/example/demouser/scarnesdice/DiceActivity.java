@@ -140,10 +140,15 @@ public class DiceActivity extends AppCompatActivity {
         holdBtn.setEnabled(false);
         rollBtn.setEnabled(false);
 
+        int score = rollDice(6);
         //while the dice are not 1
-        while (rollDice(6) != 1) {
-            //decide if the computer should hold or keep rolling
+        //while (score != 1) {
+        if (score == 1){
+            score = 0;
         }
+        currentTurnScore += score;
+
+        //}
 
         //currentTurnScore is a global variable and probably doesn't need to be a parameter as well?
         endPlayerTurn(2, currentTurnScore);
